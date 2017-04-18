@@ -26,8 +26,8 @@ def jira_list():
 def jirasubmit():
 	if request.method == "POST":
 		print (request.values)
-		summary=request.form.get('issuetype',"17389")
-	flash('{}:提单成功\n{}'.format(summary,request.values))
+		summary=request.form.get('summary',"17389")
+	flash('{}:鎻愬崟鎴愬姛'.format(summary))
 	return redirect(url_for('jira_submit'))
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
