@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 #-*-coding:utf-8-*-
 
-from jira import app
 from flask import request,render_template,flash,redirect,url_for
-
-# app = Flask(__name__)
+from . import app
+from ..model.jirelist import Jiralist
+from .. import db
 
 @app.route('/')
 def index():
@@ -25,9 +25,10 @@ def jira_list():
 @app.route('/jirasubmit',methods=["POST"])
 def jirasubmit():
 	if request.method == "POST":
-		print (request.values)
 		summary=request.form.get('summary',"17389")
-	flash('{}:提单成功'.format(summary))
-	return redirect(url_for('jira_submit'))
+		alls = Jiralist(request.form.get("pid"),request.form.get("issuetype"),request.form.get("summary"),request.form.get("description"),request.form.get("versiontype"),request.form.get("field"),request.form.get("module"),request.form.get("assignee"),request.form.get("versions"),request.form.get("severity"),request.form.get("reproduce"),request.form.get("date"))
+		print (db.session.add(alls))
+		flash('{}:提单成功'.format(summary))
+	return redirect(url_for('view.jira_submit'))
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

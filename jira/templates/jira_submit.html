@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% set active_page = "jira_submit" %}
 {% block content %}
-    <form id="form" action="jirasubmit" method="post" class="form-horizontal">
+    <form id="form" action="{{url_for('view.jirasubmit')}}" method="post" class="form-horizontal">
         <div class="form-group">
             <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 项目:</label>
             <div class="col-xs-5 ">
