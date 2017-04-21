@@ -20,10 +20,6 @@ class Connect_mysql():
 		port=app.config["MYSQL_DATABASE_PORT"]
 		self.connection = Connection(host[0],user[0],password[0],db[0],port)
 
-	def exec(self,sql):
-		self.cur.execute(sql)
-		self.con.commit()
-		return cur.fetchall()
 
 class Connection():
 	def __init__(self,host=None,user=None,password=None,db=None,port=3306):
@@ -31,7 +27,6 @@ class Connection():
 			self.con = pymysql.connect(host=host,\
 		user=user,password=password,charset='utf8mb4',db=db, port=port,\
 		connect_timeout=30,cursorclass=pymysql.cursors.DictCursor)
-			self.cur = self.con.cursor()
 		except Exception as e:
 			raise GetConfigError(e)
 
