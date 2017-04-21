@@ -37,8 +37,3 @@ class GetConfigError(Exception):
 
 	def __repr__(self):
 		return "Eroor:%s"%self.error
-
-
-
-if __name__ == '__main__':
-	ms = Connect_mysql()

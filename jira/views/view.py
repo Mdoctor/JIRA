@@ -20,14 +20,9 @@ def jira_submit():
 @app.route('/jira_list')
 def jira_list():
 	dsb = Jira()
-	res = dsb.exec("select id,pid,issuetype,summary,description,versiontype,field,module from j_issues_list;")
+	res = dsb.exec("select id,pid,issuetype,summary,description,versiontype,field,module,assignee,versions,severity,reproduce,f_date from j_issues_list;")
 	return render_template('jira_list.html',res=res)
 
-@app.route('/listdetail/<id>')
-def listdetail(id):
-	dsb = Jira()
-	res = dsb.exec("select pid,issuetype,summary,description,versiontype,field,module,assignee,versions,severity,reproduce,f_date from j_issues_list where id=%s;"%id)
-	return render_template('listdetail.html',res=res)
 
 @app.route('/jirasubmit',methods=["POST"])
 def jirasubmit():
@@ -44,10 +39,3 @@ def jirasubmit():
 		res = dsb.exec(sql)
 		flash('{}:提单成功'.format(summary))
 	return redirect(url_for('view.jira_submit'))
-
-@app.route("/test")
-def test():
-	dsb = Jira()
-	res = dsb.exec("select pid,issuetype,summary,description,versiontype,field,module,assignee,versions,severity,reproduce,f_date from j_issues_list;")
-	
-	return ('1')
