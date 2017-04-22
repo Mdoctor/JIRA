@@ -7,18 +7,23 @@ import pymysql
 class Connect_mysql():
 	"""docstring for Connect_mysql"""
 	def __init__(self,app=None):
-		self.connection = None
+		# self.connection = None
+		self.host=None
+		self.user=None
+		self.password=None
+		self.db=None
+		self.port=None
 		if app is not None:
 			self.init_app(app)
 		
 
 	def init_app(self,app):
-		host=app.config["MYSQL_DATABASE_HOST"]
-		user=app.config["MYSQL_DATABASE_USERNAME"]
-		password=app.config["MYSQL_DATABASE_PASSWORD"]
-		db=app.config["MYSQL_DATABASE_BASE"]
-		port=app.config["MYSQL_DATABASE_PORT"]
-		self.connection = Connection(host,user,password,db,port)
+		self.host=app.config["MYSQL_DATABASE_HOST"]
+		self.user=app.config["MYSQL_DATABASE_USERNAME"]
+		self.password=app.config["MYSQL_DATABASE_PASSWORD"]
+		self.db=app.config["MYSQL_DATABASE_BASE"]
+		self.port=app.config["MYSQL_DATABASE_PORT"]
+		#self.connection = Connection(host,user,password,db,port)
 
 
 class Connection():
