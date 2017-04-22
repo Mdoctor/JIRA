@@ -8,7 +8,6 @@ class Jira():
 	def __init__(self):
 		self.con = db.connection.con
 		
-
 	def exec(self,sql):
 		cur = self.con.cursor()
 		cur.execute(sql)

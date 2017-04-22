@@ -13,12 +13,12 @@ class Connect_mysql():
 		
 
 	def init_app(self,app):
-		host=app.config["MYSQL_DATABASE_HOST"],
-		user=app.config["MYSQL_DATABASE_USERNAME"],
-		password=app.config["MYSQL_DATABASE_PASSWORD"],
-		db=app.config["MYSQL_DATABASE_BASE"],
+		host=app.config["MYSQL_DATABASE_HOST"]
+		user=app.config["MYSQL_DATABASE_USERNAME"]
+		password=app.config["MYSQL_DATABASE_PASSWORD"]
+		db=app.config["MYSQL_DATABASE_BASE"]
 		port=app.config["MYSQL_DATABASE_PORT"]
-		self.connection = Connection(host[0],user[0],password[0],db[0],port)
+		self.connection = Connection(host,user,password,db,port)
 
 
 class Connection():

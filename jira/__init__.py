@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 #-*-coding:utf-8-*-
 
-from flask import Flask, render_template 
+from flask import Flask 
 # from flask_sqlalchemy import SQLAlchemy 
 from config import config
-from .model.base import Connect_mysql
+from .model.Mode_Base import Connect_mysql
 
 db = Connect_mysql()
-
 
 def create_app(config_name):     
 	app = Flask(__name__)     
