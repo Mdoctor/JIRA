@@ -1,14 +1,22 @@
 #!/usr/bin/env python
 #-*-coding:utf-8-*-
 
-from flask import request,render_template,flash,redirect,url_for
+from flask import request,render_template,flash,redirect,url_for,make_response
 from . import app
 from ..model.Mode_Jira import Jira
+import threading
+import time
+from ..api.Jira_Api import Jira_Api
 
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+	ja = Jira_Api()
+	ret,ck = ja.test()
+	res = make_response(render_template('index.html'))
+	for cookie in ck:
+		res.set_cookie(cookie.name,cookie.value)
+	return res
 
 @app.route('/jira_submit')
 def jira_submit():
@@ -36,3 +44,20 @@ def jirasubmit():
 		res = ModeJira.add_jira(valuses)
 		flash('{}:提单成功'.format(summary))
 	return redirect(url_for('view.jira_submit'))
+
+
+def task(func):
+	def warp():
+		def printt():
+			for x in range(3):
+				print (x)
+				time.sleep(2)
+		threading.Thread(target=printt).start()
+		return func()
+	return warp
+
+
+@app.route("/asynctask")
+@task
+def asynctask():
+	return "OK"
