@@ -1,90 +1,88 @@
-{% extends "base.html" %}
-{% set active_page = "jira_submit" %}
-{% block content %}
-    <form id="form" action="{{url_for('view.jirasubmit')}}" method="post" class="form-horizontal">
-        <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 项目:</label>
-            <div class="col-xs-5 ">
-                <select class="form-control" name="pid">
-                    <option value="ROM" selected>ROM</option>
-                    <option value="POLLUX">POLLUX</option>
-                </select>
-            </div>
+{% extends "base.html" %} {% set active_page = "jira_submit" %} {% block content %}
+<form id="form" action="{{url_for('view.jirasubmit')}}" method="post" class="form-horizontal">
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 项目:</label>
+        <div class="col-xs-5 ">
+            <select class="form-control" name="pid">
+                <option value="ROM" selected>ROM</option>
+                <option value="POLLUX">POLLUX</option>
+            </select>
         </div>
-        <div id="issuetype" class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 问题类型:</label>
-            <div class="col-xs-5">
-                <input type="text" class="form-control " name="issuetype" message="issuetype" value="缺陷">
-            </div>
+    </div>
+    <div id="issuetype" class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 问题类型:</label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control " name="issuetype" message="issuetype" value="缺陷">
         </div>
-        <div id="summary" class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 主题:</label>
-            <div class="col-xs-5">
-                <input type="text" class="form-control" name="summary" message="summary" value="【Pollux：ST：Monkey】{{issue}}：{{count}}次">
-            </div>
+    </div>
+    <div id="summary" class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 主题:</label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control" name="summary" message="summary" value="【Pollux：ST：Monkey】{{issue}}：{{count}}次">
         </div>
-        <div id="description" class="form-group">
-            <label for="name" class="col-sm-2 control-label"><strong style="color:red">*</strong> 描述:</label>
-            <div class="col-xs-5">
-                <textarea name="description" class="form-control" rows="6" message="description" value="">【版本路径】：{{version_path}} &#13;&#10【测试内容】：6小时monkey &#13;&#10【期望结果】：手机运行正常，没有错误类型&#13;&#10【实际结果】：{{issue}}：{{count}}次&#13;&#10【log路径】：{{log_path}}</textarea>
-            </div>
+    </div>
+    <div id="description" class="form-group">
+        <label for="name" class="col-sm-2 control-label"><strong style="color:red">*</strong> 描述:</label>
+        <div class="col-xs-5">
+            <textarea name="description" class="form-control" rows="6" message="description" value="">【版本路径】：{{version_path}} &#13;&#10【测试内容】：6小时monkey &#13;&#10【期望结果】：手机运行正常，没有错误类型&#13;&#10【实际结果】：{{issue}}：{{count}}次&#13;&#10【log路径】：{{log_path}}</textarea>
         </div>
-        <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 版本类型:</label>
-            <div class="col-xs-5">
-                <select class="form-control" name="versiontype">
-                    <option value="" selected>无</option>
-                </select>
-            </div>
+    </div>
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 版本类型:</label>
+        <div class="col-xs-5">
+            <select class="form-control" name="versiontype">
+                <option value="" selected>无</option>
+            </select>
         </div>
-        <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 领域:</label>
-            <div class="col-xs-5">
-                <select class="form-control" name="field">
-                    <option value="" selected>无</option>
-                </select>
-            </div>
+    </div>
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 领域:</label>
+        <div class="col-xs-5">
+            <select class="form-control" name="field">
+                <option value="" selected>无</option>
+            </select>
         </div>
-        <div id="module" class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 模块:</label>
-            <div class="col-xs-5">
-                <input type="text" class="form-control" name="module" message="module" value="">
-            </div>
+    </div>
+    <div id="module" class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 模块:</label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control" name="module" message="module" value="">
         </div>
-        <div id="assignee" class="form-group">
-            <label for="exampleInputName2" class="col-sm-2 control-label"><strong style="color:red">*</strong> 处理人:</label>
-            <div class="col-xs-5">
-                <input type="text" class="form-control" name="assignee" message="assignee" value="">
-            </div>
+    </div>
+    <div id="assignee" class="form-group">
+        <label for="exampleInputName2" class="col-sm-2 control-label"><strong style="color:red">*</strong> 处理人:</label>
+        <div class="col-xs-5">
+            <input id="assig" type="text" class="form-control" name="assignee" message="assignee" value="">
         </div>
-        <div id="versions" class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 影响版本:</label>
-            <div class="col-xs-5">
-                <input type="text" class="form-control" name="versions" message="versions" value="">
-            </div>
+    </div>
+    <div id="versions" class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 影响版本:</label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control" name="versions" message="versions" value="">
         </div>
-        <div id="severity" class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 严重程度:</label>
-            <div class="col-xs-5">
-                <input type="text" class="form-control" name="severity" message="severity" value="">
-            </div>
+    </div>
+    <div id="severity" class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 严重程度:</label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control" name="severity" message="severity" value="">
         </div>
-        <div id="reproduce" class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 重现概率:</label>
-            <div class="col-xs-5">
-                <input type="text" class="form-control" name="reproduce" message="reproduce" value="">
-            </div>
+    </div>
+    <div id="reproduce" class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 重现概率:</label>
+        <div class="col-xs-5">
+            <input type="text" class="form-control" name="reproduce" message="reproduce" value="">
         </div>
-        <div id="date" class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 发现时间:</label>
-            <div class="col-xs-5">
-                <input type="date" class="form-control" name="date" message="date" value="">
-            </div>
+    </div>
+    <div id="date" class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label"><strong style="color:red">*</strong> 发现时间:</label>
+        <div class="col-xs-5">
+            <input type="date" class="form-control" name="date" message="date" value="">
         </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <input class="btn btn-info"  value="提交" onclick="checkform()">
-            </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input class="btn btn-info" value="提交" onclick="checkform()">
         </div>
-    </form>
+    </div>
+</form>
 {% endblock %}
