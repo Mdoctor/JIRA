@@ -25,8 +25,9 @@ class Jira_Api(object):
             "password": pwd
         }
         endata = parse.urlencode(data).encode()
-        result, cookies = self.curl.post(url, endata)
-        return result, cookies
+        result = self.curl.post(url, endata)
+        print(result, self.curl.cj)
+        return result, self.curl.cj
 
     def jire_submit(self, parms):
         """http://hostname/rest/<api-name>/<api-version>/<resource-name>"""
@@ -40,10 +41,10 @@ class Jira_Api(object):
             }
         }
         endata = parse.urlencode(json.dumps(data, ensure_ascii=True)).encode()
-        result, cookies = self.curl.post(url, endata)
-        return result, cookies
+        result, self.curl.cj = self.curl.post(url, endata)
+        return result, self.curl.cj
 
     def test(self):
         url = "http://www.baidu.com"
-        result, ck = self.curl.post(url)
-        return result, ck
+        result = self.curl.post(url)
+        return result, self.curl.cj

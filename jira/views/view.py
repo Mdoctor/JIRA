@@ -11,12 +11,11 @@ from ..api.Jira_Api import Jira_Api
 
 @app.route('/')
 def index():
-    ja = Jira_Api()
-    ret, ck = ja.test()
-    res = make_response(render_template('index.html'))
-    for cookie in ck:
-        res.set_cookie(cookie.name, cookie.value)
-    return res
+    if not request.cookies.get('username'):
+        return render_template('index.html')
+    else:
+        user = "Asher"
+        return render_template('index.html',user=user)
 
 
 @app.route('/login', methods=["POST"])
@@ -24,11 +23,11 @@ def login():
     username = request.args.get('username')
     pawwsord = request.args.get('password')
     ja = Jira_Api()
-    ret,ck = ja.jira_login(username,pawwsord)
-    res = make_response(render_template('index.html',user))
-    for cookie in ck:
-        res.set_cookie(cookie.name, cookie.value)
-    return render_template()
+    ret, ck = ja.jira_login(username, pawwsord)
+    user = "Asher"
+    res = make_response(render_template('index.html', user=user))
+    res.set_cookie("username", "jfldksafejadslfajd")
+    return res
 
 
 @app.route('/jira_submit')

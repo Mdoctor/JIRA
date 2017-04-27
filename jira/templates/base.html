@@ -33,7 +33,11 @@
     <nav class="navbar navbar-default">
         <div class="container">
             <h2 class="navbar-text" href="#">JIRA管理平台 <small>v1.0</small></h2>
+            {%- if user -%}
+                <p class="navbar-text navbar-right">{{user}}</p>
+            {%- else %}    
             <p class="navbar-text navbar-right"><a class="navbar-link" data-toggle="modal" data-target="#login">登录</a></p>
+            {%- endif %}
         </div>
     </nav>
     <div class="container-fluid">

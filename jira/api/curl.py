@@ -22,7 +22,7 @@ class Curl(object):
             req = request.Request(url, data, self.headers)
             rsp = request.urlopen(req)
             result = rsp.read().decode('utf-8')
-            return result, self.cj
+            return result
         except Exception as e:
             print('Exception:{e}'.format(e=e))
             return False
