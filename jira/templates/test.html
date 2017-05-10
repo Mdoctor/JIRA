@@ -1,3 +1,30 @@
-<form method="POST">
-    {{ form.hidden_tag() }} {{ form.pid().label }} {{ form.issuetype().label }} {{ form.summary().label }} {{ form.description().label }} {{ form.versiontype().label }} {{ form.field().label }} {{ form.module().label }} {{ form.assignee().label }} {{ form.versions().label }} {{ form.severity().label }} {{ form.reproduce().label }} {{ form.date().label }} {{ form.file().label }} {{ form.submit() }}
+{% extends "base.html" %} {% set active_page = "jira_submit" %} {% block content %}
+<form id="form" method="POST" action="{{url_for('view.jirasubmit')}}" method="post" class="form-horizontal">
+    {% for field in form -%}{% if field.id != "csrf_token" %} {{form.hidden_tag()}}
+    <div id={{field.id}} class="form-group">
+        {% if field.type == "DateField" %} {{ field.label(class="col-sm-2 control-label") }}
+        <div class="col-xs-3 ">
+            {{field(class="form-control",type="date",message=field.id)}}
+        </div>
+        {% elif field.type == "TextAreaField" %} {{ field.label(class="col-sm-2 control-label") }}
+        <div class="col-xs-5 ">
+            {{field(class="form-control",rows=6)}}
+        </div>
+        {% else %} {% if field.flags.required %} {{ field.label(class="col-sm-2 control-label") }}
+        <div class="col-xs-5 ">
+            {{field(class="form-control",message=field.id)}}
+        </div>
+        {% else %} {{ field.label(class="col-sm-2 control-label") }}
+        <div class="col-xs-5 ">
+            {{field(class="form-control")}}
+        </div>
+        {% endif %} {% endif %}
+    </div>
+    {% endif %} {%- endfor%}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input class="btn btn-info" value="提交" onclick="checkform()">
+        </div>
+    </div>
 </form>
+{% endblock %}

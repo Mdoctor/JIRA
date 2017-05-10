@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # coding:utf-8
 
-from flask import request, render_template, flash, redirect, url_for, make_response
+from flask import request, render_template, \
+    flash, redirect, url_for, make_response
 from . import app
 from ..model.Mode_Jira import Jira
 import threading
 import time
 from ..api.Jira_Api import Jira_Api
+from ..forms import JiraSubmit
 
 
 @app.route('/')
@@ -15,7 +17,7 @@ def index():
         return render_template('index.html')
     else:
         user = "Asher"
-        return render_template('index.html',user=user)
+        return render_template('index.html', user=user)
 
 
 @app.route('/login', methods=["POST"])
@@ -74,3 +76,14 @@ def task(func):
 @task
 def asynctask():
     return "OK"
+
+
+@app.route("/test/")
+def test():
+    issue = request.args.get('issues')
+    count = request.args.get('count')
+    version_path = request.args.get('version_path')
+    log_path = request.args.get('log_path')
+    form = JiraSubmit()
+    form.values(issue,count,version_path,log_path)
+    return render_template('test.html', form=form)
