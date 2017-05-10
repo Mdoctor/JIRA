@@ -80,10 +80,9 @@ def asynctask():
 
 @app.route("/test/")
 def test():
-    issue = request.args.get('issues')
-    count = request.args.get('count')
-    version_path = request.args.get('version_path')
-    log_path = request.args.get('log_path')
-    form = JiraSubmit()
-    form.values(issue,count,version_path,log_path)
-    return render_template('test.html', form=form)
+    issue = request.args.get('issues',"")
+    count = request.args.get('count',"")
+    version_path = request.args.get('version_path',"")
+    log_path = request.args.get('log_path',"")
+    form = JiraSubmit(request.post)
+    return render_template('test.html', form=form,issue=issue,count=count,version_path=version_path,log_path=log_path)

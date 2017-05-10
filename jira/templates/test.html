@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% set active_page = "jira_submit" %} {% block content %}
 <form id="form" method="POST" action="{{url_for('view.jirasubmit')}}" method="post" class="form-horizontal">
-    {% for field in form -%}{% if field.id != "csrf_token" %} {{form.hidden_tag()}}
+    {% for field in form -%}{% if field.id != "csrf_token" %}
     <div id={{field.id}} class="form-group">
         {% if field.type == "DateField" %} {{ field.label(class="col-sm-2 control-label") }}
         <div class="col-xs-3 ">
