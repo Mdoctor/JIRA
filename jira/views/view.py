@@ -20,7 +20,7 @@ def index():
         return render_template('index.html', user=user)
 
 
-@app.route('/login', methods=["POST"])
+@app.route('/login/', methods=["POST"])
 def login():
     username = request.args.get('username')
     pawwsord = request.args.get('password')
@@ -32,7 +32,7 @@ def login():
     return res
 
 
-@app.route('/jira_submit')
+@app.route('/jira_submit/')
 def jira_submit():
     issue = request.args.get('issues')
     count = request.args.get('count')
@@ -41,14 +41,14 @@ def jira_submit():
     return render_template('jira_submit.html', issue=issue, count=count, version_path=version_path, log_path=log_path)
 
 
-@app.route('/jira_list')
+@app.route('/jira_list/')
 def jira_list():
     ModeJira = Jira()
     res = ModeJira.get_all_list
     return render_template('jira_list.html', res=res)
 
 
-@app.route('/jirasubmit', methods=["POST"])
+@app.route('/jirasubmit/', methods=["POST"])
 def jirasubmit():
     ModeJira = Jira()
     if request.method == "POST":
@@ -72,7 +72,7 @@ def task(func):
     return warp
 
 
-@app.route("/asynctask")
+@app.route("/asynctask/")
 @task
 def asynctask():
     return "OK"
@@ -80,10 +80,12 @@ def asynctask():
 
 @app.route("/test/")
 def test():
-    issue = request.args.get('issues',"")
-    count = request.args.get('count',"")
-    version_path = request.args.get('version_path',"")
-    log_path = request.args.get('log_path',"")
+    issue = request.args.get('issues',"issues")
+    count = request.args.get('count',"count")
+    version_path = request.args.get('version_path',"version_path")
+    log_path = request.args.get('log_path',"log_path")
     form = JiraSubmit()
-    form.summary.default="【Pollux：ST：Monkey】"+issue+":"+count+"次"
+    form.summary.data = "【Pollux：ST：Monkey】{issue}：{count}次".format(issue=issue,count=count)
+    form.description.data="""【版本路径】：{version_path}\n【测试内容】：6小时monkey\n【期望结果】：手机运行正常，没有错误类型\n\
+【实际结果】：{issue}：{count}次\n【log路径】：{log_path}""".format(issue=issue,count=count,version_path=version_path,log_path=log_path)
     return render_template('test.html', form=form)

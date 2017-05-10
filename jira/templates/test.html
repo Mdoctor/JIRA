@@ -12,7 +12,7 @@
         </div>
         {% else %} {% if field.flags.required %} {{ field.label(class="col-sm-2 control-label") }}
         <div class="col-xs-5 ">
-            {{field(class="form-control",message=field.id)}}
+            {{field(class="form-control",message=field.id,autocomplete="off")}}
         </div>
         {% else %} {{ field.label(class="col-sm-2 control-label") }}
         <div class="col-xs-5 ">
