@@ -13,7 +13,7 @@ class JiraSubmit(FlaskForm):
     issuetype = StringField(
         requir + "问题类型：", validators=[DataRequired("Please enter")],default="缺陷")
     summary = StringField(
-            requir + "主题：", validators=[DataRequired("Please enter")], default="【Pollux：ST：Monkey】{{issue}}：{{count}}次")
+            requir + "主题：", validators=[DataRequired("Please enter")])
     description = TextAreaField(
         requir + "描述：", validators=[DataRequired("Please enter")])
     versiontype = SelectField("版本类型：", validators=[DataRequired(
@@ -31,3 +31,8 @@ class JiraSubmit(FlaskForm):
     reproduce = SelectField("重现概率：", validators=[DataRequired(
         "Please enter")], choices=[(1, "test"), (2, "dev")])
     date = DateField(requir + "发现时间：", validators=[DataRequired("Please enter")])
+
+
+
+
+            

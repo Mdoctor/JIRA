@@ -84,5 +84,6 @@ def test():
     count = request.args.get('count',"")
     version_path = request.args.get('version_path',"")
     log_path = request.args.get('log_path',"")
-    form = JiraSubmit(request.post)
-    return render_template('test.html', form=form,issue=issue,count=count,version_path=version_path,log_path=log_path)
+    form = JiraSubmit()
+    form.summary.default="【Pollux：ST：Monkey】"+issue+":"+count+"次"
+    return render_template('test.html', form=form)
