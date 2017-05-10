@@ -1,70 +1,95 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>JIRA管理平台</title>
-        <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}"   />
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap/css/bootstrap-theme.min.css') }}">
-    </head>
-    <body>
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            {% for message in messages %}
-              <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-sm" role="document">
-                    <div class="modal-content">
-                         <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h3 class="modal-title" id="myModalLabel">JIRA提单</h3>
-                        </div>
-                        <div class="modal-body">
-                                <h5>{{ message }}</h5>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        </div>
-                    </div>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JIRA管理平台</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap/css/bootstrap-theme.min.css') }}">
+</head>
+
+<body>
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+    <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title" id="myModalLabel">JIRA提单</h3>
+                </div>
+                <div class="modal-body">
+                    <h5>{{ message }}</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
-            {% endfor %}
-          {% endif %}
-        {% endwith %}
-        
-        <div class="page-header">
-            <h1>
-                JIRA管理平台 <small>v1.0</small>
-            </h1>
         </div>
-        <div class="container-fluid">
-            <div class="row"></div>
-                    <div class="col-md-2 well">
-                    {% set navigation_bar = [
-                    ('/', 'HOME', 'HOME'),
-                    ('/jira_submit', 'jira_submit', 'JIRA提单'),
-                    ('/jira_list', 'jira_list', 'JIRA列表')
-                    ] -%}
-                    {% set active_page = active_page|default('HOME') -%}
-                    <ul class="nav nav-pills nav-stacked">
-                    {% for href, id, caption in navigation_bar %}
-                      <li{% if id == active_page %} class="active"{% endif
-                      %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <h2 class="navbar-text" href="#">JIRA管理平台 <small>v1.0</small></h2>
+            {%- if user -%}
+                <p class="navbar-text navbar-right">{{user}}</p>
+            {%- else %}    
+            <p class="navbar-text navbar-right"><a class="navbar-link" data-toggle="modal" data-target="#login">登录</a></p>
+            {%- endif %}
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row"></div>
+        <div class="col-md-2 well">
+            {% set navigation_bar = [ ('/', 'HOME', 'HOME'), ('/jira_submit', 'jira_submit', 'JIRA提单'), ('/jira_list', 'jira_list', 'JIRA列表') ] -%} {% set active_page = active_page|default('HOME') -%}
+            <ul class="nav nav-pills nav-stacked">
+                {% for href, id, caption in navigation_bar %}
+                <li{% if id==active_page %} class="active" {% endif %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
                     {% endfor %}
-                    </ul>
-                    </div>
-                <div class="col-md-10">
-                    {% block content %}
-                    {% endblock %}
+            </ul>
+        </div>
+        <div class="col-md-10">
+            {% block content %} {% endblock %}
+        </div>
+    </div>
+    </div>
+    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">登录</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="loginsub" action="{{url_for('view.login')}}" method="post">
+                        <div id="sign" class="form-group">
+                            <label for="username" class="control-label">用户名:</label>
+                            <input type="text" class="form-control" id="username">
+                        </div>
+                        <div id="pwd" class="form-group">
+                            <label for="password" class="control-label">密码:</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="login()">登录</button>
                 </div>
             </div>
         </div>
-    </body>
-    <script type="text/javascript" src="/static/bootstrap/js/jquery-3.2.0.min.js"></script>
-    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/static/bootstrap/js/jira.js"></script>
-    <script>$(function () { $('#myModal').modal({
-    keyboard: true
-})});</script>
+    </div>
+</body>
+<script type="text/javascript" src="/static/bootstrap/js/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/bootstrap/js/jira.js"></script>
+<script>
+$(function() {
+    $('#myModal').modal({
+        keyboard: true
+    })
+});
+</script>
+
 </html>

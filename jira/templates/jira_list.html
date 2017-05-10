@@ -1,66 +1,101 @@
-{% extends "base.html" %}
-{% set active_page = "jira_list" %}
-{% block content %}
-	<table class="table table-hover">
-      <thead>
+{% extends "base.html" %} {% set active_page = "jira_list" %} {% block content %}
+<table class="table table-hover">
+    <thead>
         <tr>
-          <th>#</th>
-          <th>项目</th>
-          <th>问题类型</th>
-          <th>主题</th>
-          <th>描述</th>
-          <th>版本类型</th>
-          <th>领域</th>
-          <th>模块</th>
-          <th>操作</th>
+            <th>#</th>
+            <th>项目</th>
+            <th>问题类型</th>
+            <th>主题</th>
+            <th>描述</th>
+            <th>版本类型</th>
+            <th>领域</th>
+            <th>模块</th>
+            <th>操作</th>
         </tr>
-      </thead>
-      <tbody>
+    </thead>
+    <tbody>
         {% for item in res -%}
         <tr>
-          <th class="col-md-1" scope="row">{{item["id"]}}</th>
-          <td class="col-md-1">{{item["pid"]}}</td>
-          <td class="col-md-1">{{item["issuetype"]}}</td>
-          <td class="col-md-2">{{item["summary"]}}</td>
-          <td class="col-md-3">{{item["description"]}}</td>
-          <td class="col-md-1">{{item["versiontype"]}}</td>
-          <td class="col-md-1">{{item["field"]}}</td>
-          <td class="col-md-1">{{item["module"]}}</td>
-          <td class="col-md-1"><button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal{{item['id']}}">详情</button>
-          <div class="modal fade in" id="Modal{{item['id']}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="True">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">提单详情</h4>
-          </div>
-          <div class="modal-body">
-       <table class="table table-hover">
-      <tbody>
-          <tr><td class="col-xs-2">项目</td><td class="col-xs-10">{{item["pid"]}}</td></tr>
-          <tr><td class="col-xs-2">问题类型</td><td class="col-xs-10">{{item["issuetype"]}}</td></tr>
-          <tr><td class="col-xs-2">主题</td><td class="col-xs-10">{{item["summary"]}}</td></tr>
-          <tr><td class="col-xs-2">描述</td><td class="col-xs-10">{{item["description"]}}</td></tr>
-          <tr><td class="col-xs-2">版本类型</td><td class="col-xs-10">{{item["versiontype"]}}</td></tr>
-          <tr><td class="col-xs-2">领域</td><td class="col-xs-10">{{item["field"]}}</td></tr>
-          <tr><td class="col-xs-2">模块</td><td class="col-xs-10">{{item["module"]}}</td></tr>
-          <tr><td class="col-xs-2">处理人</td><td class="col-xs-10">{{item["assignee"]}}</td></tr>
-          <tr><td class="col-xs-2">影响版本</td><td class="col-xs-10">{{item["versions"]}}</td></tr>
-          <tr><td class="col-xs-2">严重程度</td><td class="col-xs-10">{{item["severity"]}}</td></tr>
-          <tr><td class="col-xs-2">重现概率</td><td class="col-xs-10">{{item["reproduce"]}}</td></tr>
-          <tr><td class="col-xs-2">发现时间</td><td class="col-xs-10">{{item["f_date"]}}</td></tr>
-      </tbody>
-      </table>
+            <th class="col-md-1" scope="row">{{item["id"]}}</th>
+            <td class="col-md-1">{{item["pid"]}}</td>
+            <td class="col-md-1">{{item["issuetype"]}}</td>
+            <td class="col-md-2">{{item["summary"]}}</td>
+            <td class="col-md-3">{{item["description"]}}</td>
+            <td class="col-md-1">{{item["versiontype"]}}</td>
+            <td class="col-md-1">{{item["field"]}}</td>
+            <td class="col-md-1">{{item["module"]}}</td>
+            <td class="col-md-1">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal{{item['id']}}">详情</button>
+                <div class="modal fade in" id="Modal{{item['id']}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="True">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">提单详情</h4>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-xs-2">项目</td>
+                                            <td class="col-xs-10">{{item["pid"]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-xs-2">问题类型</td>
+                                            <td class="col-xs-10">{{item["issuetype"]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-xs-2">主题</td>
+                                            <td class="col-xs-10">{{item["summary"]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-xs-2">描述</td>
+                                            <td class="col-xs-10">{{item["description"]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-xs-2">版本类型</td>
+                                            <td class="col-xs-10">{{item["versiontype"]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-xs-2">领域</td>
+                                            <td class="col-xs-10">{{item["field"]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-xs-2">模块</td>
+                                            <td class="col-xs-10">{{item["module"]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-xs-2">处理人</td>
+                                            <td class="col-xs-10">{{item["assignee"]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-xs-2">影响版本</td>
+                                            <td class="col-xs-10">{{item["versions"]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-xs-2">严重程度</td>
+                                            <td class="col-xs-10">{{item["severity"]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-xs-2">重现概率</td>
+                                            <td class="col-xs-10">{{item["reproduce"]}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-xs-2">发现时间</td>
+                                            <td class="col-xs-10">{{item["f_date"]}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-		    </div>
-		  </div>
-		</div>
-          </td>
+            </td>
         </tr>
         {%- endfor %}
-      </tbody>
-    </table>
+    </tbody>
+</table>
 {% endblock %}
