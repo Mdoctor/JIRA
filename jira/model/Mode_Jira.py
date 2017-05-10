@@ -16,15 +16,22 @@ class Jira():
 		self.con.commit()
 		self.con.close()
 		return result
-		
+
 	@property
 	def get_all_list(self):
 		sql = "select id,pid,issuetype,summary,description,versiontype,field,module,assignee,versions,severity,reproduce,f_date from j_issues_list;"
 		return self.exec(sql)
 
 	def add_jira(self,values):
+		values = self.escape_string(values)
 		sql = "INSERT INTO j_issues_list (pid,issuetype,summary,description,versiontype,field,module,assignee,versions,severity,reproduce,f_date) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');"
 		sql = sql%values
+		print (sql)
 		return self.exec(sql)
 
+	def escape_string(self,values):
+		values = [x.replace("\\","\\\\") for x in values]
+		values = [x.replace('\"','\\"') for x in values]
+		values = [x.replace("'","\\'") for x in values]
+		return tuple(values)
 
