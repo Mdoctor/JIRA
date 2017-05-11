@@ -32,33 +32,11 @@ def login():
     return res
 
 
-@app.route('/jira_submit/')
-def jira_submit():
-    issue = request.args.get('issues')
-    count = request.args.get('count')
-    version_path = request.args.get('version_path')
-    log_path = request.args.get('log_path')
-    return render_template('jira_submit.html', issue=issue, count=count, version_path=version_path, log_path=log_path)
-
-
 @app.route('/jira_list/')
 def jira_list():
     ModeJira = Jira()
-    res = ModeJira.get_all_list
+    res = ModeJira.get_all_list(1)
     return render_template('jira_list.html', res=res)
-
-
-@app.route('/jirasubmit/', methods=["POST"])
-def jirasubmit():
-    ModeJira = Jira()
-    if request.method == "POST":
-        summary = request.form.get("summary")
-        jl = request.values
-        valuses = (jl["pid"], jl["issuetype"], jl["summary"], jl["description"], jl["versiontype"], jl["field"],
-                   jl["module"], jl["assignee"], jl["versions"], jl["severity"], jl["reproduce"], jl["date"])
-        res = ModeJira.add_jira(valuses)
-        flash('{}:提单成功'.format(summary))
-    return redirect(url_for('view.jira_submit'))
 
 
 def task(func):
@@ -78,14 +56,34 @@ def asynctask():
     return "OK"
 
 
+@app.route("/jira_submit/", methods=["GET", "POST"])
+def jira_submit():
+    form = JiraSubmit()
+    ModeJira = Jira()
+    if request.method == "POST":
+        summary = form.summary.data
+        if form.validate_on_submit():
+            getdata = lambda x: str(form[x].data)
+            valuses = (getdata("pid"), getdata("issuetype"), getdata("summary"), getdata("description"), getdata("versiontype"), getdata("field"),
+                       getdata("module"), getdata("assignee"), getdata("versions"), getdata("severity"), getdata("reproduce"), getdata("date"))
+            res = ModeJira.add_jira(valuses)
+            flash('{}:提单成功'.format(summary))
+        else:
+            print(form.errors)
+            flash('{}:提单失败'.format(summary))
+        return redirect(url_for('view.jira_submit'))
+    else:
+        issue = request.args.get('issues', "issues")
+        count = request.args.get('count', "count")
+        version_path = request.args.get('version_path', "version_path")
+        log_path = request.args.get('log_path', "log_path")
+        form.summary.data = "【Pollux：ST：Monkey】{issue}：{count}次".format(
+            issue=issue, count=count)
+        form.description.data = """【版本路径】：{version_path}\n【测试内容】：6小时monkey\n【期望结果】：手机运行正常，没有错误类型\n\
+【实际结果】：{issue}：{count}次\n【log路径】：{log_path}""".format(issue=issue, count=count, version_path=version_path, log_path=log_path)
+        return render_template('jira_submit.html', form=form)
+
+
 @app.route("/test/")
 def test():
-    issue = request.args.get('issues',"issues")
-    count = request.args.get('count',"count")
-    version_path = request.args.get('version_path',"version_path")
-    log_path = request.args.get('log_path',"log_path")
-    form = JiraSubmit()
-    form.summary.data = "【Pollux：ST：Monkey】{issue}：{count}次".format(issue=issue,count=count)
-    form.description.data="""【版本路径】：{version_path}\n【测试内容】：6小时monkey\n【期望结果】：手机运行正常，没有错误类型\n\
-【实际结果】：{issue}：{count}次\n【log路径】：{log_path}""".format(issue=issue,count=count,version_path=version_path,log_path=log_path)
-    return render_template('test.html', form=form)
+    return render_template("test.html")
