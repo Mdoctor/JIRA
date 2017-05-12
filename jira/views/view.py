@@ -11,6 +11,7 @@ from ..forms import JiraSubmit
 from ..model.jirelist import Jiralist
 from .. import db
 
+
 @app.route('/')
 def index():
     if not request.cookies.get('username'):

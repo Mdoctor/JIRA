@@ -31,8 +31,3 @@ class JiraSubmit(FlaskForm):
     reproduce = SelectField("重现概率：",coerce=int, validators=[DataRequired(
         "Please enter")], choices=[(1, "test"), (2, "dev")])
     date = DateField(requir + "发现时间：", validators=[DataRequired("Please enter")])
-
-
-
-
-            
