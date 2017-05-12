@@ -11,11 +11,6 @@ class Config:
         'SECRET_KEY') or 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    MYSQL_DATABASE_HOST = 'localhost'
-    MYSQL_DATABASE_PORT = 3306
-    MYSQL_DATABASE_BASE = 'jira'
-    MYSQL_DATABASE_USERNAME = 'asher'
-    MYSQL_DATABASE_PASSWORD = 'Svc_2017~!'
 
     @staticmethod
     def init_app(app):

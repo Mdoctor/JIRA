@@ -2,12 +2,10 @@
 # coding:utf-8
 
 from flask import Flask
-# from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from config import config
-from .model.Mode_Base import Connect_mysql
 
-db = Connect_mysql()
-
+db = SQLAlchemy()
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -17,7 +15,5 @@ def create_app(config_name):
     # 附加路由和自定义的错误页面
     from .views import app as app_blueprint
     app.register_blueprint(app_blueprint)
-    # from .model import app as model_blueprint
-    # app.register_blueprint(model_blueprint)
 
     return app

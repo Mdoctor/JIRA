@@ -4,12 +4,12 @@
 from flask import request, render_template, \
     flash, redirect, url_for, make_response
 from . import app
-from ..model.Mode_Jira import Jira
 import threading
 import time
 from ..api.Jira_Api import Jira_Api
 from ..forms import JiraSubmit
-
+from ..model.jirelist import Jiralist
+from .. import db
 
 @app.route('/')
 def index():
@@ -32,41 +32,16 @@ def login():
     return res
 
 
-@app.route('/jira_list/')
-def jira_list():
-    ModeJira = Jira()
-    res = ModeJira.get_all_list(1)
-    return render_template('jira_list.html', res=res)
-
-
-def task(func):
-    def warp():
-        def printt():
-            for x in range(3):
-                print(x)
-                time.sleep(2)
-        threading.Thread(target=printt).start()
-        return func()
-    return warp
-
-
-@app.route("/asynctask/")
-@task
-def asynctask():
-    return "OK"
-
-
 @app.route("/jira_submit/", methods=["GET", "POST"])
 def jira_submit():
     form = JiraSubmit()
-    ModeJira = Jira()
     if request.method == "POST":
         summary = form.summary.data
         if form.validate_on_submit():
             getdata = lambda x: str(form[x].data)
-            valuses = (getdata("pid"), getdata("issuetype"), getdata("summary"), getdata("description"), getdata("versiontype"), getdata("field"),
+            jr = Jiralist(getdata("pid"), getdata("issuetype"), getdata("summary"), getdata("description"), getdata("versiontype"), getdata("field"),
                        getdata("module"), getdata("assignee"), getdata("versions"), getdata("severity"), getdata("reproduce"), getdata("date"))
-            res = ModeJira.add_jira(valuses)
+            db.session.add(jr)
             flash('{}:提单成功'.format(summary))
         else:
             print(form.errors)
@@ -84,6 +59,26 @@ def jira_submit():
         return render_template('jira_submit.html', form=form)
 
 
-@app.route("/test/")
-def test():
-    return render_template("test.html")
+@app.route("/jira_list/")
+def jira_list():
+    page = request.args.get('page', 1, type=int)
+    pagination = Jiralist.query.order_by(Jiralist.id.asc()).paginate(page, per_page=5,error_out=False)
+    posts = pagination.items
+    return render_template('jira_list.html',res=posts,pagination=pagination)
+
+
+def task(func):
+    def warp():
+        def printt():
+            for x in range(3):
+                print(x)
+                time.sleep(2)
+        threading.Thread(target=printt).start()
+        return func()
+    return warp
+
+
+@app.route("/asynctask/")
+@task
+def asynctask():
+    return "OK"
