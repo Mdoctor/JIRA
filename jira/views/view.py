@@ -63,8 +63,19 @@ def jira_submit():
 @app.route("/jira_list/")
 def jira_list():
     page = request.args.get('page', 1, type=int)
+    if page <= 0:
+        page = 1
     pagination = Jiralist.query.order_by(Jiralist.id.asc()).paginate(page, per_page=5,error_out=False)
     posts = pagination.items
+    def reiter_pages(page=page,pages=pagination.pages):
+        if page - 3 <= 0:
+            start = 0
+        elif pages - page <= 3:
+            start = pages - 6
+        else:
+            start = page - 3
+        return range(1,pages+1)[start:start+6]
+    pagination.iter_pages = reiter_pages
     return render_template('jira_list.html',res=posts,pagination=pagination)
 
 
