@@ -23,4 +23,4 @@ CREATE TABLE `j_issues_list` (
   `raw_add_time` timestamp NULL DEFAULT NULL,
   `raw_update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
